@@ -348,5 +348,31 @@ pointing `COGNODB_URI` at a dead host.
 
 ## Demo
 
-<!-- DEMO LINK -->
+**Live: [obsidian-vault-gilt-three.vercel.app](https://obsidian-vault-gilt-three.vercel.app)**
+
+Running on Vercel (`iad1`) against the CognoDB free `c0` instance in `us-east4`, so the app
+and the database sit in the same region.
+
+Three things worth trying, in order:
+
+1. Open any note — **Ideas / Learning / Deliberate Practice** is the most connected — and read
+   the **backlinks panel** at the bottom. Every entry shows the sentence the link appeared in,
+   not just a filename.
+2. Open the **Explore** tab and press **Find connection**. It is seeded with two notes from
+   different folders; the answer routes through a person or a book neither note is about.
+3. Open the **Graph** tab, switch to *This note*, and drag the depth slider from 1 to 3.
+
 <!-- SCREEN RECORDING -->
+
+### Deploying your own
+
+```bash
+vercel link
+vercel env add COGNODB_URI production        # bolt+s://<id>.databases.cognodb.com
+vercel env add COGNODB_USER production       # cognodb
+vercel env add COGNODB_PASSWORD production   # the one-time generated password
+vercel --prod
+```
+
+`vercel.json` pins functions to `iad1`. If your CognoDB region differs, change it to match —
+co-location is worth more here than any query tuning.
