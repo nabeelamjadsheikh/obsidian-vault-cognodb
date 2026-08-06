@@ -6,22 +6,33 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "tsx --env-file=.env.local scripts/seed.ts",
+    "verify": "tsx --env-file=.env.local scripts/verify.ts",
+    "db:up": "docker run -d --name obsidian-neo4j -p 7687:7687 -p 7474:7474 -e NEO4J_AUTH=neo4j/vaultpassword123 -e NEO4J_server_memory_heap_max__size=512m neo4j:5-community",
+    "db:down": "docker rm -f obsidian-neo4j"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
+    "neo4j-driver": "^6.2.0",
+    "next": "15.5.22",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.22"
+    "react-force-graph-2d": "^1.29.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "15.5.22",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "tsx": "^4.23.9",
+    "typescript": "^5"
   }
 }

@@ -1,0 +1,290 @@
+{
+  "people": [
+    {
+      "name": "Richard Feynman",
+      "role": "Physicist whose explanations set the standard for teaching by understanding"
+    },
+    {
+      "name": "Ursula K. Le Guin",
+      "role": "Novelist and essayist on story, craft and the uses of imagination"
+    },
+    {
+      "name": "Marcus Aurelius",
+      "role": "Roman emperor whose private notebook became Meditations"
+    },
+    {
+      "name": "Epictetus",
+      "role": "Former slave turned Stoic teacher; source of the dichotomy of control"
+    },
+    {
+      "name": "Seneca",
+      "role": "Roman Stoic, letter-writer and the patron saint of the commonplace book"
+    },
+    {
+      "name": "Donella Meadows",
+      "role": "Systems thinker and author of Thinking in Systems"
+    },
+    {
+      "name": "Christopher Alexander",
+      "role": "Architect who invented pattern languages"
+    },
+    {
+      "name": "Barbara Oakley",
+      "role": "Engineering professor who popularised the learning science literature"
+    },
+    {
+      "name": "Anne Lamott",
+      "role": "Novelist and writing teacher; author of Bird by Bird"
+    },
+    {
+      "name": "Stephen King",
+      "role": "Novelist whose memoir On Writing doubles as a craft manual"
+    },
+    {
+      "name": "Niklas Luhmann",
+      "role": "Sociologist whose slip box produced an implausible body of work"
+    },
+    {
+      "name": "James Clear",
+      "role": "Writer on habit design and behaviour change"
+    },
+    {
+      "name": "Herbert Simon",
+      "role": "Polymath of bounded rationality, satisficing and near-decomposable systems"
+    },
+    {
+      "name": "Douglas Hofstadter",
+      "role": "Cognitive scientist on strange loops, analogy and self-reference"
+    },
+    {
+      "name": "Sönke Ahrens",
+      "role": "Educator who reconstructed the zettelkasten method for writers"
+    },
+    {
+      "name": "Anders Ericsson",
+      "role": "Psychologist who defined deliberate practice and disowned its pop version"
+    },
+    {
+      "name": "Keiko Tanaka",
+      "role": "Design collaborator on the Lantern side project; runs the interface critiques"
+    },
+    {
+      "name": "Andrew Mensah",
+      "role": "Engineer friend and Lantern collaborator; graph database sceptic turned convert"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Surely You're Joking, Mr. Feynman!",
+      "type": "book",
+      "authors": [
+        "Richard Feynman"
+      ]
+    },
+    {
+      "title": "The Feynman Lectures on Physics",
+      "type": "book",
+      "authors": [
+        "Richard Feynman"
+      ]
+    },
+    {
+      "title": "Cargo Cult Science",
+      "type": "talk",
+      "authors": [
+        "Richard Feynman"
+      ],
+      "url": "https://calteches.library.caltech.edu/51/2/CargoCult.htm"
+    },
+    {
+      "title": "The Carrier Bag Theory of Fiction",
+      "type": "article",
+      "authors": [
+        "Ursula K. Le Guin"
+      ]
+    },
+    {
+      "title": "Steering the Craft",
+      "type": "book",
+      "authors": [
+        "Ursula K. Le Guin"
+      ]
+    },
+    {
+      "title": "The Left Hand of Darkness",
+      "type": "book",
+      "authors": [
+        "Ursula K. Le Guin"
+      ]
+    },
+    {
+      "title": "Meditations",
+      "type": "book",
+      "authors": [
+        "Marcus Aurelius"
+      ]
+    },
+    {
+      "title": "Discourses",
+      "type": "book",
+      "authors": [
+        "Epictetus"
+      ]
+    },
+    {
+      "title": "The Enchiridion",
+      "type": "book",
+      "authors": [
+        "Epictetus"
+      ]
+    },
+    {
+      "title": "Letters from a Stoic",
+      "type": "book",
+      "authors": [
+        "Seneca"
+      ]
+    },
+    {
+      "title": "On the Shortness of Life",
+      "type": "book",
+      "authors": [
+        "Seneca"
+      ]
+    },
+    {
+      "title": "Thinking in Systems: A Primer",
+      "type": "book",
+      "authors": [
+        "Donella Meadows"
+      ]
+    },
+    {
+      "title": "Leverage Points: Places to Intervene in a System",
+      "type": "article",
+      "authors": [
+        "Donella Meadows"
+      ],
+      "url": "https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/"
+    },
+    {
+      "title": "Dancing with Systems",
+      "type": "article",
+      "authors": [
+        "Donella Meadows"
+      ]
+    },
+    {
+      "title": "A Pattern Language",
+      "type": "book",
+      "authors": [
+        "Christopher Alexander"
+      ]
+    },
+    {
+      "title": "The Timeless Way of Building",
+      "type": "book",
+      "authors": [
+        "Christopher Alexander"
+      ]
+    },
+    {
+      "title": "Notes on the Synthesis of Form",
+      "type": "book",
+      "authors": [
+        "Christopher Alexander"
+      ]
+    },
+    {
+      "title": "A Mind for Numbers",
+      "type": "book",
+      "authors": [
+        "Barbara Oakley"
+      ]
+    },
+    {
+      "title": "Learning How to Learn",
+      "type": "talk",
+      "authors": [
+        "Barbara Oakley"
+      ]
+    },
+    {
+      "title": "Bird by Bird",
+      "type": "book",
+      "authors": [
+        "Anne Lamott"
+      ]
+    },
+    {
+      "title": "On Writing: A Memoir of the Craft",
+      "type": "book",
+      "authors": [
+        "Stephen King"
+      ]
+    },
+    {
+      "title": "Communicating with Slip Boxes",
+      "type": "article",
+      "authors": [
+        "Niklas Luhmann"
+      ]
+    },
+    {
+      "title": "Social Systems",
+      "type": "book",
+      "authors": [
+        "Niklas Luhmann"
+      ]
+    },
+    {
+      "title": "Atomic Habits",
+      "type": "book",
+      "authors": [
+        "James Clear"
+      ]
+    },
+    {
+      "title": "The Sciences of the Artificial",
+      "type": "book",
+      "authors": [
+        "Herbert Simon"
+      ]
+    },
+    {
+      "title": "The Architecture of Complexity",
+      "type": "paper",
+      "authors": [
+        "Herbert Simon"
+      ]
+    },
+    {
+      "title": "Gödel, Escher, Bach: An Eternal Golden Braid",
+      "type": "book",
+      "authors": [
+        "Douglas Hofstadter"
+      ]
+    },
+    {
+      "title": "How to Take Smart Notes",
+      "type": "book",
+      "authors": [
+        "Sönke Ahrens"
+      ]
+    },
+    {
+      "title": "Deliberate Practice and the Acquisition of Expert Performance",
+      "type": "paper",
+      "authors": [
+        "Anders Ericsson"
+      ]
+    },
+    {
+      "title": "Peak: Secrets from the New Science of Expertise",
+      "type": "book",
+      "authors": [
+        "Anders Ericsson"
+      ]
+    }
+  ]
+}

@@ -1,26 +1,493 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   Design tokens — Obsidian's dark theme.
+
+   Tailwind v4 is CSS-first: there is no tailwind.config.js. Everything below
+   inside @theme becomes both a CSS custom property on :root AND a utility
+   namespace, so `--color-surface-alt` gives you `bg-surface-alt`,
+   `text-surface-alt`, `border-surface-alt`, etc.
+
+   The vault is dark-only by design. Obsidian's dark theme is the reference,
+   so there is no light palette to fall back to and no `prefers-color-scheme`
+   branch — `color-scheme: dark` tells the browser to render form controls,
+   scrollbars and the canvas to match.
+   ========================================================================== */
+
+@theme {
+  /* Surfaces, back to front. */
+  --color-bg: #1e1e1e;
+  --color-surface: #262626;
+  --color-surface-alt: #2a2a2a;
+  --color-border: #363636;
+
+  /* Text, by descending emphasis. Faint is reserved for stubs and disabled. */
+  --color-text: #dadada;
+  --color-text-muted: #999999;
+  --color-text-faint: #6a6a6a;
+
+  /* The one accent: internal links, active state, blockquote bar, focus ring. */
+  --color-accent: #a882ff;
+  --color-accent-dim: #7c5cbf;
+
+  /* Fonts are system stacks only — no network fetch, no CDN, no FOUT.
+     `--font-sans` drives the chrome (sidebar, tabs, panels); `--font-serif`
+     drives the reading pane so note bodies read like a document rather than
+     like UI, which is what makes Obsidian feel like Obsidian. */
+  --font-sans:
+    "Inter", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Charter", Georgia,
+    "Times New Roman", "Noto Serif", serif;
+  --font-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Monaco, "Cascadia Mono",
+    "Roboto Mono", "Liberation Mono", Consolas, monospace;
+
+  /* Chrome is dense: 13px is Obsidian's sidebar size. */
+  --text-ui: 0.8125rem;
+  --text-ui--line-height: 1.4;
+
+  --radius-panel: 6px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ==========================================================================
+   Base layer
+   ========================================================================== */
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+
+    /* Reading-pane measurements, referenced by the prose styles below. */
+    --note-font-size: 16px;
+    --note-line-height: 1.65;
+    --note-measure: 46rem;
+  }
+
+  html {
+    background-color: var(--color-bg);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-ui);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* App chrome should not select like a document. Note bodies opt back in. */
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+    color: var(--color-text);
+  }
+
+  /* One consistent, visible focus ring — keyboard only, never on mouse click. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-text-faint);
+  }
+
+  /* Thin dark scrollbars, Obsidian style: invisible until the pane is hovered. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border: 3px solid transparent;
+    border-radius: 6px;
+    background-clip: content-box;
+  }
+
+  :hover > ::-webkit-scrollbar-thumb,
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #4a4a4a;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@layer utilities {
+  /* Shimmer for Skeleton. Reduced-motion users get a static block, which is
+     still a legible placeholder — the animation is decoration, not signal. */
+  @keyframes vault-shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  .vault-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      var(--color-surface) 0%,
+      var(--color-surface-alt) 40%,
+      #333333 50%,
+      var(--color-surface-alt) 60%,
+      var(--color-surface) 100%
+    );
+    background-size: 200% 100%;
+    animation: vault-shimmer 1.6s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vault-shimmer {
+      animation: none;
+      background-image: none;
+      background-color: var(--color-surface-alt);
+    }
+  }
+}
+
+/* ==========================================================================
+   Markdown prose — the reading pane.
+
+   Scoped to `.prose-note` rather than applied globally so the sidebar, tabs
+   and panels are never accidentally styled like a document. react-markdown
+   emits plain tags, so these are all element selectors.
+   ========================================================================== */
+
+.prose-note {
+  font-family: var(--font-serif);
+  font-size: var(--note-font-size);
+  line-height: var(--note-line-height);
+  color: var(--color-text);
+  max-width: var(--note-measure);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ---- headings ---- */
+
+.prose-note h1,
+.prose-note h2,
+.prose-note h3,
+.prose-note h4,
+.prose-note h5,
+.prose-note h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+  margin-block: 1.6em 0.6em;
+  scroll-margin-top: 2rem;
+}
+
+.prose-note > :first-child {
+  margin-block-start: 0;
+}
+
+.prose-note h1 {
+  font-size: 1.75em;
+  letter-spacing: -0.015em;
+}
+.prose-note h2 {
+  font-size: 1.4em;
+  letter-spacing: -0.01em;
+  padding-block-end: 0.25em;
+  border-block-end: 1px solid var(--color-border);
+}
+.prose-note h3 {
+  font-size: 1.18em;
+}
+.prose-note h4 {
+  font-size: 1.05em;
+}
+.prose-note h5,
+.prose-note h6 {
+  font-size: 1em;
+  color: var(--color-text-muted);
+}
+
+/* ---- body copy ---- */
+
+.prose-note p {
+  margin-block: 0 1em;
+}
+
+.prose-note strong {
+  font-weight: 650;
+  color: #eaeaea;
+}
+
+.prose-note em {
+  font-style: italic;
+}
+
+.prose-note del {
+  color: var(--color-text-muted);
+}
+
+.prose-note hr {
+  border: 0;
+  border-block-start: 1px solid var(--color-border);
+  margin-block: 2em;
+}
+
+/* ---- lists ---- */
+
+.prose-note ul,
+.prose-note ol {
+  margin-block: 0 1em;
+  padding-inline-start: 1.6em;
+}
+
+.prose-note ul {
+  list-style: disc;
+}
+.prose-note ul ul {
+  list-style: circle;
+}
+.prose-note ul ul ul {
+  list-style: square;
+}
+.prose-note ol {
+  list-style: decimal;
+}
+
+.prose-note li {
+  margin-block: 0.25em;
+}
+
+.prose-note li::marker {
+  color: var(--color-text-faint);
+}
+
+/* Nested lists tuck under their parent instead of adding a blank line. */
+.prose-note li > ul,
+.prose-note li > ol {
+  margin-block: 0.25em 0.25em;
+}
+
+/* ---- task lists: real checkboxes, accent-filled when done ---- */
+
+.prose-note ul:has(> li > input[type="checkbox"]),
+.prose-note li:has(> input[type="checkbox"]) > ul {
+  list-style: none;
+  padding-inline-start: 0.35em;
+}
+
+.prose-note li:has(> input[type="checkbox"]) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55em;
+  list-style: none;
+}
+
+/* react-markdown renders task items as disabled inputs; keep them looking
+   interactive rather than greyed out, since the editor owns the real toggle. */
+.prose-note input[type="checkbox"] {
+  appearance: none;
+  flex: none;
+  inline-size: 1em;
+  block-size: 1em;
+  margin: 0;
+  margin-block-start: calc((var(--note-line-height) * 1em - 1em) / 2);
+  border: 1.5px solid var(--color-text-faint);
+  border-radius: 3px;
+  background-color: transparent;
+  opacity: 1;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+
+.prose-note input[type="checkbox"]:checked {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  /* Inline data-URI tick: no image asset, no icon font. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%231e1e1e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-6'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* A completed task reads as done without disappearing. */
+.prose-note li:has(> input[type="checkbox"]:checked) {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-text-faint);
+}
+
+/* ---- blockquote: 3px accent bar ---- */
+
+.prose-note blockquote {
+  margin-block: 0 1em;
+  margin-inline: 0;
+  padding-inline-start: 1em;
+  border-inline-start: 3px solid var(--color-accent);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.prose-note blockquote > :last-child {
+  margin-block-end: 0;
+}
+
+/* ---- code ---- */
+
+.prose-note code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-style: normal;
+  color: #d9b3ff;
+  background-color: var(--color-surface-alt);
+  border-radius: 3px;
+  padding: 0.15em 0.35em;
+}
+
+.prose-note pre {
+  margin-block: 0 1em;
+  padding: 0.85em 1em;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  overflow-x: auto;
+  line-height: 1.55;
+}
+
+/* Inside a fence the chip styling would fight the block. */
+.prose-note pre code {
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  color: var(--color-text);
+  font-size: 0.82em;
+}
+
+/* ---- tables (remark-gfm) ---- */
+
+.prose-note table {
+  display: block;
+  overflow-x: auto;
+  width: max-content;
+  max-width: 100%;
+  margin-block: 0 1em;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.9em;
+}
+
+.prose-note th,
+.prose-note td {
+  border: 1px solid var(--color-border);
+  padding: 0.4em 0.7em;
+  text-align: start;
+}
+
+.prose-note th {
+  background-color: var(--color-surface);
+  font-weight: 600;
+}
+
+/* ---- links ---- */
+
+/* External links: underlined accent, no special treatment. */
+.prose-note a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--color-accent) 45%,
+    transparent
+  );
+}
+
+.prose-note a:hover {
+  color: color-mix(in srgb, var(--color-accent) 80%, white);
+  text-decoration-color: currentColor;
+}
+
+/*
+ * Internal (wikilink) links. `.internal-link` is applied by the markdown
+ * renderer; `.is-stub` marks a link whose target note does not exist yet.
+ * These two classes also work outside `.prose-note` — backlink panels and
+ * search results render them too — so they are defined unscoped.
+ */
+.internal-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.internal-link:hover {
+  color: color-mix(in srgb, var(--color-accent) 78%, white);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* Unresolved link: greyed and dotted, exactly as Obsidian shows a note that
+   is only referenced. Clicking it is how you create the note. */
+.internal-link.is-stub,
+a.is-stub {
+  color: var(--color-text-faint);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-text-faint);
+}
+
+.internal-link.is-stub:hover,
+a.is-stub:hover {
+  color: var(--color-text-muted);
+  text-decoration-color: var(--color-text-muted);
+}
+
+/* Tags written inline in the body. */
+.prose-note .tag,
+.inline-tag {
+  color: var(--color-accent-dim);
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+/* ---- images ---- */
+
+.prose-note img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-panel);
 }
