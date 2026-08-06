@@ -261,7 +261,7 @@ Sign up at [console.cognodb.com/signup](https://console.cognodb.com/signup) — 
 tier needs no credit card. Create an instance and pick a region; it provisions in under a
 minute.
 
-You get a URI of the form `bolt+s://<instance-id>.databases.cognodb.cloud` and a generated
+You get a URI of the form `bolt+s://<instance-id>.databases.cognodb.com` and a generated
 password for the user `cognodb`. **The password is shown exactly once** — copy it immediately.
 
 ### 2. Configure
@@ -271,7 +271,7 @@ cp .env.example .env.local
 ```
 
 ```dotenv
-COGNODB_URI=bolt+s://<your-instance-id>.databases.cognodb.cloud
+COGNODB_URI=bolt+s://<your-instance-id>.databases.cognodb.com
 COGNODB_USER=cognodb
 COGNODB_PASSWORD=<your-generated-password>
 ```
