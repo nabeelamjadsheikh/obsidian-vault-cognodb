@@ -1,8 +1,11 @@
 ---
-title: Steal the Structure, Not the Style
-created: 2024-10-27
-updated: 2025-05-30
-tags: ["writing", "craft", "creativity"]
+title: 'Steal the Structure, Not the Style'
+created: 2024-10-27T00:00:00.000Z
+updated: 2025-05-30T00:00:00.000Z
+tags:
+  - writing
+  - craft
+  - creativity
 people: []
 sources: []
 ---
@@ -15,4 +18,4 @@ The exercise: take an essay you envy, write one line per paragraph describing it
 
 This is the same operation as the skeleton read in [[The Shape of an Essay]], performed on someone else's work instead of your own. Used as a starting frame, a borrowed skeleton is the one case where a fairly detailed plan is safe — with the usual caveat from [[Outlines Are Scaffolding, Not Blueprints]] that it comes down once the draft stands.
 
-It also fits the general case: [[Imitation Is Apprenticeship]] only works when the copying has a specific target. And because architecture is impersonal, borrowing it leaves your own [[Voice Is What Survives Translation]] intact, which is exactly what copying sentences destroys.
+It also fits the general case: Imitation Is Apprenticeship only works when the copying has a specific target. And because architecture is impersonal, borrowing it leaves your own [[Voice Is What Survives Translation]] intact, which is exactly what copying sentences destroys.

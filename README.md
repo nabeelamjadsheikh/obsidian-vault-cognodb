@@ -124,17 +124,27 @@ a note that others still link to turns it back into a stub rather than dangling 
 
 | | |
 |---|---|
-| Notes | 187 |
-| Links | 762 (4.1 per note) |
-| Graph | 273 nodes, 1666 edges |
-| Tags · People · Sources | 25 · 18 · 30 |
-| Folders | 13, nested three deep |
+| Notes | 74 |
+| Links | 243 (3.3 per note) |
+| Graph | 150 nodes, 598 edges |
+| Tags · People · Sources | 21 · 18 · 30 |
+| Folders | 8, nested two deep |
 
-The vault is a Zettelkasten on writing, learning, systems thinking, stoicism and a couple of
-side projects. It is deliberately structured: dense thematic clusters, a handful of genuine
-orphans, ~20 pairs that share entities but are not linked (so the suggestion engine has real
-work to do), and several long cross-cluster bridges that only exist through a shared author
-or book.
+The vault is a Zettelkasten built around three dense clusters — **writing**, **learning** and
+**systems thinking** — plus six genuine strays (travel notes, a sourdough log, an espresso
+dial-in) that link to nothing and exist so the orphan report has something real to say.
+
+The structure is deliberate rather than random. Notes inside a cluster link densely to each
+other; the clusters themselves are joined only through shared people and books, so the path
+between them runs through an author rather than a direct link:
+
+> **The First Sentence Is a Contract** → Narrative Versus Argument → Metaphor as Compression →
+> Explain It To a Twelve-Year-Old → **Richard Feynman** → *Learning by Teaching*
+
+Seven hops from a note about opening lines to a note about teaching, and the only thing
+joining the two halves is Feynman. There are also dozens of pairs that share two or more
+tags, people or sources without any link between them — which is what gives the suggestion
+engine real work to do.
 
 ---
 
@@ -166,11 +176,11 @@ WHERE length(path) <= $depth
 ```
 
 Depth is clamped to 1–3 server-side, because a value larger than the literal ceiling would
-silently do nothing while looking like it worked. Verified: depth 1 returns 19 nodes, depth 2
-returns 113.
+silently do nothing while looking like it worked. Verified: depth 1 returns 14 nodes, depth 2
+returns 50.
 
 **`findPath` deliberately excludes `TAGGED`.** This is the single most important decision in
-the query layer. A tag is a category, not a connection — with 25 tags over 187 notes, any two
+the query layer. A tag is a category, not a connection — with 21 tags over 74 notes, any two
 notes sharing one are two hops apart, so including tags makes almost every pair "connected"
 through a hub like `#learning`. Technically a path; tells you nothing. Restricting the search
 to `LINKS_TO`, `CITES`, `MENTIONS` and `AUTHORED_BY` means every returned path is a specific
@@ -239,17 +249,17 @@ Measured against the live `c0` instance, median of 3 runs:
 | `getInsights` | 670 ms |
 | `searchNotes` (CONTAINS fallback) | 667 ms |
 | `getLocalGraph` depth 2 | 786 ms |
-| `getGlobalGraph` (273 nodes / 1,666 edges) | 788 ms |
+| `getGlobalGraph` (150 nodes / 598 edges) | 788 ms |
 | `getLocalGraph` depth 3 | 947 ms |
 
-The striking thing is the **~664 ms floor**: the cheapest query and the one returning 1,666
+The striking thing is the **~664 ms floor**: the cheapest query and the one returning 598
 edges differ by barely 120 ms. That floor is network round-trip from the development machine
 to us-east4, not query execution — the same queries run in 5–25 ms against a local container.
 Deploying the app to a US-East region puts it in the same region as the database and removes
 that hop entirely, which is why the hosted demo is noticeably quicker than local development.
 
 Worth noting for anyone extending this: the free tier caps results at **50,000 rows**. The
-global graph query is the only one that could approach it, and at ~1,900 rows it has room.
+global graph query is the only one that could approach it, and at a few hundred rows it has room.
 
 ---
 
@@ -355,7 +365,7 @@ and the database sit in the same region.
 
 Three things worth trying, in order:
 
-1. Open any note — **Ideas / Learning / Deliberate Practice** is the most connected — and read
+1. Open any note — **Ideas / Learning / Chunking** is the most connected — and read
    the **backlinks panel** at the bottom. Every entry shows the sentence the link appeared in,
    not just a filename.
 2. Open the **Explore** tab and press **Find connection**. It is seeded with two notes from

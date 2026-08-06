@@ -1,8 +1,10 @@
 ---
 title: Notebooks Are Not Drafts
-created: 2023-11-27
-updated: 2024-10-19
-tags: ["writing", "note-taking"]
+created: 2023-11-27T00:00:00.000Z
+updated: 2024-10-19T00:00:00.000Z
+tags:
+  - writing
+  - note-taking
 people: []
 sources: []
 ---
@@ -17,6 +19,6 @@ So they are separate files, separate sessions, and separately evaluated. The not
 
 The subtle part is what happens between them, and it is not copying. The move from note to draft is a rewrite, and that rewrite is where the actual thinking occurs, which is the argument in [[Writing Is Thinking, Not Its Transcript]]. A note dragged unchanged into a draft is always visible as a foreign object.
 
-This is also the boundary that makes [[Evergreen Notes]] different from a log: an evergreen note has been through the rewrite, a captured one has not. And it is the line I check before posting anything, since [[Writing in Public]] means publishing the second pass rather than the first.
+This is also the boundary that makes Evergreen Notes different from a log: an evergreen note has been through the rewrite, a captured one has not. And it is the line I check before posting anything, since [[Writing in Public]] means publishing the second pass rather than the first.
 
-The oldest version of this discipline is the one Seneca describes, gathering widely and then digesting — see [[Keeping a Commonplace Book]] — and the digestion step is the part everyone skips.
+The oldest version of this discipline is the one Seneca describes, gathering widely and then digesting — see Keeping a Commonplace Book — and the digestion step is the part everyone skips.

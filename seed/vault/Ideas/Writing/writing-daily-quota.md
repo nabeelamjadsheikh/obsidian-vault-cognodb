@@ -1,13 +1,17 @@
 ---
 title: The Daily Quota
-created: 2023-02-18
-updated: 2024-12-09
-tags: ["writing", "habits"]
-people: ["Stephen King"]
-sources: ["On Writing: A Memoir of the Craft"]
+created: 2023-02-18T00:00:00.000Z
+updated: 2024-12-09T00:00:00.000Z
+tags:
+  - writing
+  - habits
+people:
+  - Stephen King
+sources:
+  - 'On Writing: A Memoir of the Craft'
 ---
 
-King writes two thousand words a day, holidays included, and the number is less interesting than the structure around it: the door is closed, the quota is not negotiable, and he does not leave until it is met. The rest of what I took from the book is in [[Notes on On Writing]].
+King writes two thousand words a day, holidays included, and the number is less interesting than the structure around it: the door is closed, the quota is not negotiable, and he does not leave until it is met. The rest of what I took from the book is in Notes on On Writing.
 
 I have run this at 500 words for about two years now, and the effects were not the ones I expected.
 

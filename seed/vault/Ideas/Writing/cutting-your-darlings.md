@@ -1,10 +1,14 @@
 ---
-title: Kill Your Darlings, Gently
-created: 2024-03-05
-updated: 2025-02-21
-tags: ["writing", "craft"]
-people: ["Stephen King"]
-sources: ["On Writing: A Memoir of the Craft"]
+title: 'Kill Your Darlings, Gently'
+created: 2024-03-05T00:00:00.000Z
+updated: 2025-02-21T00:00:00.000Z
+tags:
+  - writing
+  - craft
+people:
+  - Stephen King
+sources:
+  - 'On Writing: A Memoir of the Craft'
 ---
 
 The line predates King, but his framing is the practical one: the sentence you love most is under suspicion precisely because you love it. Affection is evidence that a sentence is serving you — your cleverness, your enjoyment of your own turn of phrase — and sentences that serve the writer are usually the ones the reader stumbles over.
@@ -18,4 +22,4 @@ Two detectors:
 - [[Read It Aloud]]. Darlings are audible. They have a little flourish in the delivery that the surrounding sentences do not.
 - The outline test from [[The Shape of an Essay]]: if the sentence does not advance the load-bearing structure, it is ornament, and ornament is fine only in small doses.
 
-The rest of what I took from King is in [[Notes on On Writing]], including his second draft equals first draft minus ten percent, which is really this rule with a number attached.
+The rest of what I took from King is in Notes on On Writing, including his second draft equals first draft minus ten percent, which is really this rule with a number attached.

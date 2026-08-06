@@ -149,16 +149,32 @@ async function main() {
      * the query. If AUTHORED_BY were dropped from the traversal these paths
      * disappear, which is the regression this guards.
      */
-    const stoic = notes.filter((n) => n.folder?.startsWith('Philosophy'))
-    const meta = notes.filter((n) => n.folder?.startsWith('Meta') || n.folder?.startsWith('Ideas'))
-    if (stoic.length === 0 || meta.length === 0) {
-      return { ok: false, note: 'expected Philosophy and Meta/Ideas notes in the vault' }
+    /*
+     * Folders are discovered, not named. An earlier version hardcoded the
+     * folders the seed vault happened to have; resizing the vault then failed
+     * the check while the app was fine. The test should describe the property —
+     * two notes in different clusters, connected through an entity — not the
+     * fixture that satisfied it.
+     */
+    const byFolder = new Map<string, typeof notes>()
+    for (const n of notes) {
+      if (!n.folder) continue
+      const bucket = byFolder.get(n.folder) ?? []
+      bucket.push(n)
+      byFolder.set(n.folder, bucket)
     }
+    const clusters = [...byFolder.values()]
+      .filter((c) => c.length >= 5)
+      .sort((a, b) => b.length - a.length)
+    if (clusters.length < 2) {
+      return { ok: false, note: `need 2+ folders with 5+ notes, found ${clusters.length}` }
+    }
+    const [first, second] = clusters
 
     let best: { desc: string; via: string; distance: number } | null = null
     let checked = 0
-    for (const a of stoic.slice(0, 12)) {
-      for (const b of meta.slice(0, 12)) {
+    for (const a of first.slice(0, 12)) {
+      for (const b of second.slice(0, 12)) {
         checked++
         const path = await findPath(a.slug, b.slug)
         if (!path) continue

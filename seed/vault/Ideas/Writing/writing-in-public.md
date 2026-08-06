@@ -1,8 +1,11 @@
 ---
 title: Writing in Public
-created: 2024-09-08
-updated: 2025-06-14
-tags: ["writing", "habits", "note-taking"]
+created: 2024-09-08T00:00:00.000Z
+updated: 2025-06-14T00:00:00.000Z
+tags:
+  - writing
+  - habits
+  - note-taking
 people: []
 sources: []
 ---
@@ -17,4 +20,4 @@ It also solves a completion problem. Half-finished pieces accumulate indefinitel
 
 The distinction that keeps it from being noise: not everything belongs in public. Raw capture is not a post, which is the whole point of [[Notebooks Are Not Drafts]] — publishing the notebook wastes everyone's time, publishing the third pass does not.
 
-The model that fits best is the slow-growing, publicly-revised page rather than the stream of dated posts, an idea I keep coming back to in [[The Garden and the Stream]].
+The model that fits best is the slow-growing, publicly-revised page rather than the stream of dated posts, an idea I keep coming back to in The Garden and the Stream.
