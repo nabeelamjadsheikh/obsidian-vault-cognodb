@@ -1,11 +1,11 @@
-# Vault
+# Filament
 
 A note-taking app where the **connections between your notes are the data**, not an
 afterthought. Write notes, link them with `[[double brackets]]`, and the app answers the
 questions a folder of files cannot: *what links here, how are these two ideas connected, and
 which notes should I have linked but never did?*
 
-**▶ Try it: [obsidian-vault-gilt-three.vercel.app](https://obsidian-vault-gilt-three.vercel.app)**
+**▶ Try it: [filament-notes.vercel.app](https://filament-notes.vercel.app)**
 
 Modelled on [Obsidian](https://obsidian.md), backed by [CognoDB](https://cognodb.com) — a
 managed graph database that speaks openCypher over Bolt.
@@ -58,7 +58,7 @@ on a graph database, and [Part 2](#why-a-graph-database) makes the case with rea
 
 ## A two-minute tour
 
-Open the [live demo](https://obsidian-vault-gilt-three.vercel.app). It comes preloaded with a
+Open the [live demo](https://filament-notes.vercel.app). It comes preloaded with a
 74-note vault about writing, learning and systems thinking, so there is something to explore
 immediately. Do these three things in order:
 

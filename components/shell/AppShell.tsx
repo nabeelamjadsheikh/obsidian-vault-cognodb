@@ -150,7 +150,7 @@ function Workspace() {
     return (
       <div className="flex h-full flex-col bg-bg">
         <header className="flex h-9 shrink-0 items-center border-b border-border bg-surface px-3 text-ui text-text-muted">
-          Vault
+          Filament
         </header>
         <div className="flex min-h-0 flex-1 items-center justify-center">
           <ErrorState

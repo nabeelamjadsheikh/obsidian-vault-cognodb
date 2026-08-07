@@ -9,8 +9,8 @@ import './globals.css'
  */
 
 export const metadata: Metadata = {
-  title: 'Vault',
-  description: 'A personal knowledge vault — notes, links and the graph between them.',
+  title: 'Filament',
+  description: 'Filament — a knowledge vault where the connections between your notes are the data.',
 }
 
 /*
