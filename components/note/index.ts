@@ -1,10 +1,7 @@
 /**
- * The note pane — reading, editing, backlinks and suggested links.
- *
- * `NotePane` is the whole public surface: give it a slug and it handles
- * fetching, every loading/empty/error state, saving and the live refresh of the
- * connection panels. The pieces below are exported for composition, not because
- * anything outside this directory is expected to need them.
+ * The note pane. `NotePane` is the public surface — give it a slug and it
+ * handles fetching, saving, and every loading/empty/error state. The rest is
+ * exported for composition only.
  */
 
 export { NotePane, type NotePaneProps } from './NotePane'

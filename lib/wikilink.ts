@@ -22,7 +22,7 @@ export interface ParsedLink {
   context: string
 }
 
-export interface ParsedBody {
+interface ParsedBody {
   links: ParsedLink[]
   /** Inline `#tags` found in the body, deduped, without the `#`. */
   tags: string[]
@@ -75,7 +75,7 @@ function maskCode(body: string): string {
  * character window when there is no sentence punctuation nearby (headings,
  * list items, table cells).
  */
-export function extractContext(body: string, index: number, maxLength = 240): string {
+function extractContext(body: string, index: number, maxLength = 240): string {
   const BOUNDARY = /[.!?]\s|\n{2,}|\n[-*>#]|\n\d+\./
 
   // Walk back to the start of the sentence or block.

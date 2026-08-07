@@ -1,25 +1,14 @@
 /**
- * The colours the Explore pane paints with.
+ * Colours for the Explore pane.
  *
- * Two palettes live here, and they answer different questions.
+ * KIND_COLOUR is shared with the graph pane so a teal chip means "Person"
+ * everywhere. These are graph semantics rather than design tokens, which is why
+ * they are raw hex and have no `bg-*` utility.
  *
- * 1. KIND_COLOUR — identity. It is the *same* palette the graph pane uses, so a
- *    teal chip means "Person" everywhere in the app. These four hex values are
- *    not design tokens: they are graph semantics, they have no `bg-*` utility,
- *    and inventing token names for them would imply the rest of the chrome may
- *    use them. Everything else in this pane uses the Tailwind token classes.
- *
- * 2. HUB_IN / HUB_OUT — the diverging poles of the hub bar. A note's inbound and
- *    outbound degree is a polarity, not two independent series: high inbound is
- *    a destination the vault keeps returning to, high outbound is a map-of-
- *    contents. So the bar diverges from a neutral centre line, which needs two
- *    hues that stay apart under colour-vision deficiency.
- *
- *    Both were validated against the #262626 panel surface in dark mode:
- *    OKLCH lightness inside the 0.48–0.67 dark band, chroma above the grey
- *    floor, adjacent CVD ΔE 9.6 (deutan) / 12.7 (tritan), normal-vision ΔE 17.9,
- *    contrast ≥ 3:1. They are also never colour-alone — the bar carries a
- *    legend and a printed count at each end.
+ * HUB_IN / HUB_OUT are the diverging poles of the hub bar. Both were checked
+ * against the panel surface for colour-vision deficiency (adjacent ΔE 9.6
+ * deutan, 12.7 tritan, contrast ≥ 3:1), and neither is ever colour-alone — the
+ * bar carries a legend and a printed count at each end.
  */
 
 import type { NodeKind } from '@/lib/types'

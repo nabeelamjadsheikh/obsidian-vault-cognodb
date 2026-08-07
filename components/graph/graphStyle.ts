@@ -35,14 +35,6 @@ export const KIND_LABEL: Record<NodeKind, string> = {
 }
 
 /** One line explaining what each kind of dot actually is, for the legend. */
-export const KIND_BLURB: Record<NodeKind, string> = {
-  Note: 'A page in your vault',
-  Tag: 'A topic notes are filed under',
-  Person: 'Someone a note mentions',
-  Source: 'A book or article a note cites',
-  Folder: 'Where a note is filed',
-}
-
 /** Canvas background. Matches `--color-bg` so the pane has no visible seam. */
 export const CANVAS_BG = '#1e1e1e'
 

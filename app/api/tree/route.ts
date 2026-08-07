@@ -1,11 +1,6 @@
 /**
- * GET /api/tree — the sidebar's two navigation structures in one request:
- * the folder hierarchy and the tag cloud.
- *
- * They are fetched together because they are rendered together; splitting them
- * would make the sidebar wait on two round trips to show one pane. The two
- * queries are independent, so they run concurrently — the request is two
- * queries wide, not two deep.
+ * GET /api/tree — folder hierarchy and tag cloud together, because the sidebar
+ * renders them together and should not wait on two round trips to show one pane.
  */
 
 import { handle } from '@/lib/api'

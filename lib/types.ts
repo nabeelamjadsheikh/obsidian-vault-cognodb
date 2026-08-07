@@ -103,17 +103,6 @@ export interface GraphData {
   edges: GraphEdge[]
 }
 
-/** Query params for the graph endpoint. */
-export interface GraphQuery {
-  scope: 'global' | 'local'
-  /** Required when scope is 'local'. */
-  slug?: string
-  /** 1–3. Clamped server-side; see the literal-ceiling note in lib/queries. */
-  depth?: number
-  /** Which relationship types to include. Defaults to all. */
-  types?: RelType[]
-}
-
 /* ------------------------------------------------------------- path finder */
 
 export interface PathStep {

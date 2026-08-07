@@ -14,7 +14,7 @@ import type { ApiErrorCode } from './types'
 
 /* ----------------------------------------------------------------- config */
 
-export interface DbConfig {
+interface DbConfig {
   uri: string
   user: string
   password: string
@@ -154,7 +154,7 @@ export function toDbError(err: unknown): DbError {
  */
 const globalForDriver = globalThis as unknown as { __vaultDriver?: Driver }
 
-export function getDriver(): Driver {
+function getDriver(): Driver {
   if (globalForDriver.__vaultDriver) return globalForDriver.__vaultDriver
 
   const { uri, user, password } = readConfig()
@@ -190,7 +190,7 @@ export async function closeDriver(): Promise<void> {
  * values as its own classes. Converting once here means nothing downstream —
  * no query function, no route, no component — ever has to think about it.
  */
-export function toPlain<T = unknown>(value: unknown): T {
+function toPlain<T = unknown>(value: unknown): T {
   if (value === null || value === undefined) return value as T
 
   if (neo4j.isInt(value)) {
