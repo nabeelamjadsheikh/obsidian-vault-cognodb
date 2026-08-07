@@ -30,6 +30,12 @@ export interface NoteSummary {
   updatedAt: string
   wordCount: number
   /**
+   * Links in plus links out. Zero means the note is an island: it cannot appear
+   * on any path, which is why the path finder refuses to seed a demonstration
+   * with one.
+   */
+  linkCount: number
+  /**
    * True when this note exists only because something links to it — Obsidian's
    * unresolved link. Rendered greyed out and faded in the graph.
    */

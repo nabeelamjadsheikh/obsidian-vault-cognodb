@@ -40,7 +40,7 @@ import { PathChain } from './PathChain'
 import { isBridgeKind, KIND_NOUN } from './palette'
 
 /** How many random pairs the opening demonstration will try before giving up. */
-const SEED_ATTEMPTS = 4
+const SEED_ATTEMPTS = 6
 
 /** How long the opening demonstration waits on one pair before drawing again. */
 const SEED_PATIENCE_MS = 6_000
@@ -76,13 +76,21 @@ function sample<T>(items: T[]): T | null {
  * Two real notes from two different top-level folders.
  *
  * Different folders is the whole point: a pair from inside one folder is a
- * connection the folder tree already showed you. Stubs are excluded because a
- * stub has no body and reads as a dead end in the chain.
+ * connection the folder tree already showed you.
+ *
+ * Two exclusions, both about not opening on a dead end. Stubs have no body and
+ * read as a gap in the chain. Notes with no links at all — the vault's genuine
+ * strays — cannot be on *any* path by definition, so seeding the demonstration
+ * with one guarantees "no connection found" and makes the headline feature look
+ * broken on first paint. Folder size is not a usable proxy for this: a small
+ * folder can hold well-connected notes, and a larger one can hold nothing but
+ * strays. Connectivity is the property that actually matters, so it is the one
+ * being tested.
  */
 function pickPair(notes: NoteSummary[]): [NoteSummary, NoteSummary] | null {
   const grouped = new Map<string, NoteSummary[]>()
   for (const note of notes) {
-    if (note.stub) continue
+    if (note.stub || note.linkCount === 0) continue
     const folder = topLevel(note.folder)
     if (!folder) continue
     const bucket = grouped.get(folder)
@@ -94,7 +102,7 @@ function pickPair(notes: NoteSummary[]): [NoteSummary, NoteSummary] | null {
 
   // Fall back to any two distinct notes when the vault has no folders at all.
   if (folders.length < 2) {
-    const usable = notes.filter((n) => !n.stub)
+    const usable = notes.filter((n) => !n.stub && n.linkCount > 0)
     if (usable.length < 2) return null
     const first = sample(usable)
     const second = sample(usable.filter((n) => n.slug !== first?.slug))

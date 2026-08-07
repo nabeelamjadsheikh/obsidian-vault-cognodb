@@ -10,6 +10,8 @@ which notes should I have linked but never did?*
 Modelled on [Obsidian](https://obsidian.md), backed by [CognoDB](https://cognodb.com) — a
 managed graph database that speaks openCypher over Bolt.
 
+![Reading a note](docs/screenshots/01-reading-view.jpg)
+
 > Built for the Wexa AI take-home assignment. The engineering rationale — data model, query
 > design, and two CognoDB bugs found along the way — is in
 > [Part 2: How it works](#part-2--how-it-works).
@@ -110,17 +112,17 @@ sidebar.
 
 ## The five features
 
-### 1. Backlinks with context
+### 1. Backlinks with context · 2. Suggested connections
 
-At the bottom of every note. Shows every note linking here, each with the sentence it appeared
-in. Nothing to maintain — it is derived from the links themselves.
+![Backlinks and suggested connections](docs/screenshots/02-backlinks-and-suggestions.jpg)
 
-### 2. Suggested connections
+**Backlinks** sit at the bottom of every note: every note linking here, each with the sentence
+it appeared in. Nothing to maintain — it is derived from the links themselves.
 
-Below the backlinks. The app looks for notes that **share things with this one but aren't
-linked**, and tells you which:
+**Suggested connections** sit below them. The app looks for notes that **share things with
+this one but aren't linked**, and tells you what they share:
 
-> **Deliberate Practice** — shares *Anders Ericsson*, *learning* · 2 in common
+> **Bounded Rationality** — shares *Herbert Simon*, *mental-models* · 2 in common
 
 Click **Link** and it appends the `[[link]]` and saves. This is the feature Obsidian itself
 does poorly, and it is the clearest reason the data lives in a graph: "reachable in two hops
@@ -128,16 +130,23 @@ through a shared entity, but not reachable in one hop directly" is a single quer
 
 ### 3. Path finder — "how are these connected?"
 
-In the **Explore** tab. Pick any two notes and it finds the shortest chain between them,
-showing the relationship type on each connector. People and sources are highlighted, because a
+![Path finder](docs/screenshots/03-path-finder.jpg)
+
+In the **Explore** tab. Pick any two notes and it finds the shortest chain between them, with
+the relationship type printed on each connector. People and sources are highlighted, because a
 path routing through an author is exactly the kind of connection a folder tree can never show
-you. If nothing connects them within 8 hops, it says so — that is an answer, not an error.
+you — above, two notes about prose are joined through **Douglas Hofstadter**.
+
+If nothing connects them within 8 hops it says so plainly. That is an answer, not an error.
 
 ### 4. The graph
 
+![Graph view](docs/screenshots/04-graph.jpg)
+
 Every note plus the tags, people, sources and folders they connect to. Node size scales with
 how connected a note is, so hubs are visible at a glance. Colours: **white** notes, **purple**
-tags, **teal** people, **gold** sources, **grey** folders.
+tags, **teal** people, **gold** sources, **grey** folders. The loose dots around the edge are
+genuine orphans — notes that link to nothing.
 
 Two modes — *Whole vault*, and *This note* with a depth slider (1–3). Use the **Graph
 settings** checkboxes to hide tags or folders when it gets busy; unticking everything leaves
@@ -314,15 +323,17 @@ hop — the graph would be overkill. The multi-hop questions are what earn it.
 
 ## The data model
 
+Five labels, seven typed relationships, and properties on both nodes and edges.
+
 ```mermaid
 graph LR
-  Note[":Note<br/>title, slug, body<br/>wordCount, stub"]
-  Folder[":Folder<br/>name, path"]
+  Note[":Note<br/>id · title · slug<br/>body · wordCount<br/>createdAt · updatedAt<br/>stub"]
+  Folder[":Folder<br/>name · path"]
   Tag[":Tag<br/>name"]
-  Person[":Person<br/>name, role"]
-  Source[":Source<br/>title, type, url"]
+  Person[":Person<br/>name · role"]
+  Source[":Source<br/>title · type · url"]
 
-  Note -->|"LINKS_TO { context }"| Note
+  Note -->|"LINKS_TO<br/>context · createdAt"| Note
   Note -->|TAGGED| Tag
   Note -->|IN_FOLDER| Folder
   Folder -->|CHILD_OF| Folder
@@ -330,6 +341,35 @@ graph LR
   Note -->|CITES| Source
   Source -->|AUTHORED_BY| Person
 ```
+
+**Nodes**
+
+| Label | Properties | Count |
+|---|---|---|
+| `:Note` | `id`, `title`, `slug` (unique), `body`, `wordCount`, `createdAt`, `updatedAt`, `stub` | 74 |
+| `:Source` | `title` (unique), `type`, `url` | 20 |
+| `:Tag` | `name` (unique) | 21 |
+| `:Person` | `name` (unique), `role` | 14 |
+| `:Folder` | `path` (unique), `name` | 8 |
+
+**Relationships**
+
+| Type | From → To | Properties | Count |
+|---|---|---|---|
+| `LINKS_TO` | Note → Note | **`context`**, `createdAt` | 243 |
+| `TAGGED` | Note → Tag | — | 172 |
+| `IN_FOLDER` | Note → Folder | — | 74 |
+| `CITES` | Note → Source | — | 39 |
+| `MENTIONS` | Note → Person | — | 37 |
+| `AUTHORED_BY` | Source → Person | — | 20 |
+| `CHILD_OF` | Folder → Folder | — | 3 |
+
+Totalling 137 nodes and 588 relationships — every one of which is reachable. The seed only
+creates people and sources the notes actually reference, so the graph has no invisible nodes
+padding its counts.
+
+Uniqueness constraints are created on each of the five keys above, so `MERGE` is correct under
+concurrency and the planner has an index to seek on.
 
 Two decisions worth defending:
 
@@ -348,8 +388,8 @@ link to turns it back into a stub rather than dangling their edges.
 |---|---|
 | Notes | 74 |
 | Links | 243 (3.3 per note) |
-| Graph | 150 nodes, 598 edges |
-| Tags · People · Sources | 21 · 18 · 30 |
+| Graph | 137 nodes, 588 edges |
+| Tags · People · Sources | 21 · 14 · 20 |
 | Folders | 8 |
 
 Three dense clusters — writing, learning, systems thinking — plus six genuine strays (travel
@@ -429,8 +469,13 @@ rather than diffing is deliberate: it makes saving idempotent, and it means a li
 ### Error handling
 
 Database failures are expected operationally, not exceptional. `lib/db.ts` maps them to typed
-codes — `DB_UNREACHABLE`, `DB_AUTH`, `DB_TIMEOUT`, `CONFIG` — and the UI renders a
-"Can't reach the vault" panel with a retry button instead of white-screening.
+codes — `DB_UNREACHABLE`, `DB_AUTH`, `DB_TIMEOUT`, `CONFIG` — and the UI renders this instead
+of white-screening:
+
+![Database unreachable](docs/screenshots/05-database-unreachable.jpg)
+
+Verified by stopping the database mid-session: the API returns 503 with the code, the panel
+offers a retry, and the driver reconnects when the database comes back — no restart needed.
 
 One subtlety worth knowing: the driver check is **structural, not `instanceof`**.
 `err instanceof Neo4jError` works in a plain script but silently fails inside the Next.js
@@ -496,7 +541,7 @@ Measured against the live `c0` instance, median of 3 runs:
 | `getSuggestedLinks` | 678 ms |
 | `searchNotes` | 667 ms |
 | `getLocalGraph` depth 2 | 786 ms |
-| `getGlobalGraph` | 788 ms |
+| `getGlobalGraph` (137 nodes / 588 edges) | 788 ms |
 | `getLocalGraph` depth 3 | 947 ms |
 
 The striking thing is the **~664 ms floor**: the cheapest query and the heaviest differ by

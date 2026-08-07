@@ -38,6 +38,7 @@ interface NoteSummaryRow {
   updatedAt: string | null
   wordCount: number | null
   stub: boolean | null
+  linkCount?: number | null
 }
 
 /**
@@ -53,6 +54,7 @@ function toSummary(row: NoteSummaryRow): NoteSummary {
     tags: (row.tags ?? []).filter((t): t is string => typeof t === 'string').sort(),
     updatedAt: row.updatedAt ?? '',
     wordCount: row.wordCount ?? 0,
+    linkCount: row.linkCount ?? 0,
     stub: row.stub === true,
   }
 }
@@ -125,7 +127,8 @@ export async function listNotes(): Promise<NoteSummary[]> {
        [(n)-[:TAGGED]->(t:Tag) | t.name]             AS tags,
        n.updatedAt                                   AS updatedAt,
        n.wordCount                                   AS wordCount,
-       n.stub                                        AS stub
+       n.stub                                        AS stub,
+       size([(n)-[:LINKS_TO]-(:Note) | 1])           AS linkCount
      ORDER BY coalesce(n.updatedAt, '') DESC, n.title`,
     {},
   )

@@ -341,11 +341,19 @@ async function loadGraph(
     { notes: notes.filter((n) => n.sources.length > 0) },
   )
 
-  // Enrich entities that the manifest knows more about than the frontmatter does.
+  /*
+   * Enrich entities the manifest knows more about than the frontmatter does.
+   *
+   * MATCH, not MERGE. entities.json is a metadata sidecar describing people and
+   * sources the notes refer to; it is not a second source of truth about which
+   * ones exist. MERGE here would introduce nodes nothing references — after the
+   * vault was trimmed, a contact from the removed notes lingered as a Person
+   * with no edges, invisible in the graph but present in every count.
+   */
   if (entities.people?.length) {
     await runWrite(
       `UNWIND $people AS p
-       MERGE (person:Person {name: p.name})
+       MATCH (person:Person {name: p.name})
        SET person.role = p.role`,
       { people: entities.people },
     )
@@ -354,7 +362,7 @@ async function loadGraph(
   if (entities.sources?.length) {
     await runWrite(
       `UNWIND $sources AS s
-       MERGE (source:Source {title: s.title})
+       MATCH (source:Source {title: s.title})
        SET source.type = s.type, source.url = s.url`,
       { sources: entities.sources },
     )

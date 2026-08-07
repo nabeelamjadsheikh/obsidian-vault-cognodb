@@ -59,6 +59,8 @@ export async function getOrphans(): Promise<NoteSummary[]> {
     title: row.title ?? row.slug,
     folder: row.folder ?? null,
     tags: (row.tags ?? []).filter((t): t is string => typeof t === 'string').sort(),
+    // Zero by definition — the query selects notes with no LINKS_TO either way.
+    linkCount: 0,
     updatedAt: row.updatedAt ?? '',
     wordCount: row.wordCount ?? 0,
     stub: row.stub === true,
